@@ -37,7 +37,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 116.5, y: -179}
-  m_SizeDelta: {x: 233, y: 209}
+  m_SizeDelta: {x: 99, y: 125}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5463968732722396870
 CanvasRenderer:
@@ -67,7 +67,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 40b88e08b38b8504ba36fd7f4e77a2ac, type: 3}
+  m_Sprite: {fileID: 7944878729352474619, guid: 45a1e3a1c31b5be4a8a84779e87d144e, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -101,7 +101,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 142.14, y: 155.85}
+  m_Size: {x: 100.9, y: 125.5}
   m_EdgeRadius: 0
 --- !u!114 &5463968732722396868
 MonoBehaviour:
@@ -116,6 +116,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canBePressed: 0
+  holdThreshold: 4
+  holdingColor: {r: 0, g: 0, b: 0, a: 0}
   keyToPress: 7700000073000000
   hitEffect: {fileID: 5282987494625483645, guid: b6f93fc37eeb05e4a85dea21c8c164fa, type: 3}
   greatEffect: {fileID: 3095502192890040889, guid: e80fd89f1d1657648a8e06aebe018ea2, type: 3}

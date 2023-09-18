@@ -93,7 +93,7 @@ public class NoteObject : MonoBehaviour
                 Debug.Log(holdDuration);
 
             // Check if the hold duration has reached the desired threshold for the successful hold action
-            if (holdDuration * 2 >= holdThreshold)
+            if (holdDuration * 1.5 >= holdThreshold)
             {
                 // Successful hold action for the long note
                 Debug.Log("Successful hold action for long note!");

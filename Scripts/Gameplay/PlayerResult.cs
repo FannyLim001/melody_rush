@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class PlayerResult : MonoBehaviour
 {
@@ -16,5 +17,10 @@ public class PlayerResult : MonoBehaviour
         accuracy.text = PlayerPrefs.GetString("percentHit");
         Rank.text = PlayerPrefs.GetString("rankValue");
         score.text = PlayerPrefs.GetString("finalScore");
+    }
+
+    public void Back()
+    {
+        SceneManager.LoadScene("Lobby");
     }
 }

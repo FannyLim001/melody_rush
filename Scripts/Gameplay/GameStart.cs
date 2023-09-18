@@ -38,7 +38,7 @@ public class GameStart : MonoBehaviour
     public GameObject enemyParent;
     public GameObject[] enemyPrefabs; // Array to hold different enemy prefabs
 
-    private float lastXPosition = 100f;
+    private float lastXPosition = 1000f;
     public float spacingOffset = 0.5f;
 
     public HealthBar healthBar;
@@ -85,15 +85,12 @@ public class GameStart : MonoBehaviour
         Debug.Log(currentBeatTempo);
 
         // Calculate the total number of beats based on the song duration and beat tempo
-        int totalBeats = Mathf.RoundToInt(audioDuration * (currentBeatTempo / 320f) * 2);
+        int totalBeats = Mathf.RoundToInt(audioDuration * (currentBeatTempo / 320f) * 2.5f);
         float secondsPerBeat = 60f / beatTempo[currentSongIndex];
 
         // Instantiate random enemy prefabs at random positions
         for (int i = 0; i < totalBeats; i++)
         {
-            // Calculate the time at which the beat should occur
-            float beatTime = i * secondsPerBeat;
-
             // Randomly choose an enemy prefab from the array
             GameObject randomEnemyPrefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
 
@@ -112,7 +109,7 @@ public class GameStart : MonoBehaviour
             enemy.transform.localPosition = new Vector3(xPos, yPos, 0f);
 
             // Update the lastXPosition for the next instantiation
-            lastXPosition = xPos;
+            lastXPosition = xPos + enemyWidth * 0.5f + spacingOffset;
         }
 
         bgMusic.Play();
@@ -234,7 +231,7 @@ public class GameStart : MonoBehaviour
         Time.timeScale = 1f;
     }
 
-    public void ExitGame()
+    public void Back()
     {
         SceneManager.LoadScene("Lobby");
     }

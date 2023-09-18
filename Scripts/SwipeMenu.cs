@@ -20,12 +20,14 @@ public class SwipeMenu : MonoBehaviour
     private string[] songAbout;
     private string[] songWriter;
     private string[] songSinger;
+    private string[] songDisc;
 
     void Start()
     {
         songAbout = new string[totalPrefab];
         songWriter = new string[totalPrefab];
         songSinger = new string[totalPrefab];
+        songDisc = new string[totalPrefab];
 
         scrollBarComponent = scrollbar.GetComponent<Scrollbar>();
         distanceBetweenItems = 1f / (totalPrefab - 1f);
@@ -52,9 +54,13 @@ public class SwipeMenu : MonoBehaviour
                 labelText.text = buttonData.songName[i];
             }
 
+            Image songImg = instantiatedButtons[i].GetComponent<Image>();
+            songImg.sprite = buttonData.songImage[i];
+
             songAbout[i] = buttonData.songAbout[i];
             songWriter[i] = buttonData.songWriter[i];
             songSinger[i] = buttonData.songSinger[i];
+            songDisc[i] = buttonData.songImage[i].name;
 
             // Assign the audio clip to the button's AudioSource component
             AudioSource audioSource = instantiatedButtons[i].GetComponentInChildren<AudioSource>();
@@ -67,34 +73,71 @@ public class SwipeMenu : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButton(0))
-        {
-            scroll_pos = scrollBarComponent.value;
-        }
-        else
+
+        if (!DetailBeatmap.Instance.isDetail)
         {
             // Handle keyboard arrow key scroll input
             if (Input.GetKeyDown(KeyCode.LeftArrow))
             {
-                scroll_pos -= distanceBetweenItems;
-                scroll_pos = Mathf.Clamp01(scroll_pos);
+                ScrollLeft();
             }
             else if (Input.GetKeyDown(KeyCode.RightArrow))
             {
-                scroll_pos += distanceBetweenItems;
-                scroll_pos = Mathf.Clamp01(scroll_pos);
+                ScrollRight();
             }
 
-            // Disable all buttons first (except for the currently focused one)
-            for (int j = 0; j < totalPrefab; j++)
+            // Handle mouse click selection
+            if (Input.GetMouseButtonDown(0))
             {
-                if (instantiatedButtons[j] != currentFocusedButton)
-                {
-                    instantiatedButtons[j].GetComponent<Button>().interactable = false;
-                }
+                HandleMouseClick();
             }
 
-            for (int i = 0; i < totalPrefab; i++)
+            // Rest of your code...
+            UpdateUI();
+        }
+    }
+
+    void ScrollLeft()
+    {
+        scroll_pos -= distanceBetweenItems;
+        scroll_pos = Mathf.Clamp01(scroll_pos);
+    }
+
+    void ScrollRight()
+    {
+        scroll_pos += distanceBetweenItems;
+        scroll_pos = Mathf.Clamp01(scroll_pos);
+    }
+
+    void HandleMouseClick()
+    {
+        // Determine the mouse click position
+        Vector2 mousePos = Input.mousePosition;
+        float normalizedMousePosX = mousePos.x / Screen.width;
+
+        // Determine if the click is on the left or right half of the screen
+        if (normalizedMousePosX < 0.5f)
+        {
+            ScrollLeft();
+        }
+        else
+        {
+            ScrollRight();
+        }
+    }
+
+    void UpdateUI()
+    {
+        // Disable all buttons first (except for the currently focused one)
+        for (int j = 0; j < totalPrefab; j++)
+        {
+            if (instantiatedButtons[j] != currentFocusedButton)
+            {
+                instantiatedButtons[j].GetComponent<Button>().interactable = false;
+            }
+        }
+
+        for (int i = 0; i < totalPrefab; i++)
             {
                 if (scroll_pos < pos[i] + (distanceBetweenItems / 2) && scroll_pos > pos[i] - (distanceBetweenItems / 2))
                 {
@@ -133,6 +176,7 @@ public class SwipeMenu : MonoBehaviour
                         PlayerPrefs.SetString("songAbout", songAbout[i]);
                         PlayerPrefs.SetString("songWriter", songWriter[i]);
                         PlayerPrefs.SetString("songSinger", songSinger[i]);
+                        PlayerPrefs.SetString("songDisc", songDisc[i]);
                         PlayerPrefs.SetInt("SelectedSongIndex", i);
 
                         string audioText = instantiatedButtons[i].GetComponentInChildren<AudioSource>().clip.name;
@@ -147,5 +191,4 @@ public class SwipeMenu : MonoBehaviour
                 }
             }
         }
-    }
 }
